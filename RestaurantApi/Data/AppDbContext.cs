@@ -10,6 +10,7 @@ namespace RestaurantApi.Data
         public DbSet<Restaurant> Restaurants => Set<Restaurant>();
         public DbSet<Dish> Dishes => Set<Dish>();
         public DbSet<Review> Reviews => Set<Review>();
+        public DbSet<User> Users => Set<User>();
     }
 }
 

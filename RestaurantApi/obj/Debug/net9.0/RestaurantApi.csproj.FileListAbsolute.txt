@@ -66,3 +66,12 @@ C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\obj\Debug\net9.0\rjimswa.dsw
 C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
 C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
 C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\obj\Debug\net9.0\swae.build.ex.cache
+C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\bin\Debug\net9.0\BCrypt.Net-Next.dll
+C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll

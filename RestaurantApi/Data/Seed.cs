@@ -8,7 +8,6 @@ namespace RestaurantApi.Data
         public static async Task EnsureSeededAsync(AppDbContext db)
         {
             await db.Database.EnsureCreatedAsync();
-            // Skip seeding if data already exists (MySQL already has data)
             if (await db.Restaurants.AnyAsync()) return;
 
             var r1 = new Restaurant { Name = "Pica House", Address = "Vilnius" };

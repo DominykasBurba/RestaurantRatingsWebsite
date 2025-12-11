@@ -60,3 +60,9 @@ C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\obj\Debug\net9.0\refint\Rest
 C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\obj\Debug\net9.0\RestaurantApi.pdb
 C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\obj\Debug\net9.0\RestaurantApi.genruntimeconfig.cache
 C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\obj\Debug\net9.0\ref\RestaurantApi.dll
+C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\obj\Debug\net9.0\RestaurantApi.sourcelink.json
+C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\obj\Debug\net9.0\rpswa.dswa.cache.json
+C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\obj\Debug\net9.0\rjimswa.dswa.cache.json
+C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\obj\Debug\net9.0\rjsmrazor.dswa.cache.json
+C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\obj\Debug\net9.0\rjsmcshtml.dswa.cache.json
+C:\Users\iksas\Desktop\Burba_Saitynai\RestaurantApi\obj\Debug\net9.0\swae.build.ex.cache

@@ -58,7 +58,6 @@ namespace RestaurantApi.Controllers
             return NoContent();
         }
 
-        // Hierarchical endpoint: all dishes for specific restaurant
         [HttpGet("{id}/dishes")]
         public async Task<ActionResult<IEnumerable<Dish>>> GetDishes(int id)
         {

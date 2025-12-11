@@ -38,14 +38,26 @@ namespace RestaurantApi.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, Dish d)
         {
-            if (id != d.Id) return BadRequest();
+            if (id != d.Id) 
+                return BadRequest(new { error = "ID in URL does not match ID in body." });
+
+            if (!await _db.Restaurants.AnyAsync(r => r.Id == d.RestaurantId))
+                return BadRequest(new { error = $"Restaurant with ID {d.RestaurantId} does not exist." });
+
             _db.Entry(d).State = EntityState.Modified;
-            try { await _db.SaveChangesAsync(); }
+
+            try 
+            { 
+                await _db.SaveChangesAsync(); 
+            }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await _db.Dishes.AnyAsync(x => x.Id == id)) return NotFound();
+                if (!await _db.Dishes.AnyAsync(x => x.Id == id))
+                    return NotFound();
+
                 throw;
             }
+
             return NoContent();
         }
 

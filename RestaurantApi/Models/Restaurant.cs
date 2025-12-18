@@ -19,9 +19,8 @@ namespace RestaurantApi.Models
 
         public string? Address { get; set; }
 
-        [Required]
-        [Range(1, 5)]
-        public double AverageRating { get; set; }
+        [Range(0, 5)]
+        public double AverageRating { get; set; } = 0;
 
         public RestaurantStatus Status { get; set; } = RestaurantStatus.Approved;
 

@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using RestaurantApi.Data;
+using RestaurantApi.Services;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -43,8 +45,8 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection")
-        ?? "Server=localhost;Database=restaurant_api;Uid=root;Pwd=;";
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
+        ?? throw new InvalidOperationException("Connection string 'DefaultConnection' is not configured.");
+    options.UseMySql(connectionString, new MySqlServerVersion(new Version(8, 0, 34)));
 });
 
 // JWT Authentication
@@ -68,7 +70,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 builder.Services.AddAuthorization();
-builder.Services.AddScoped<RestaurantApi.Services.JwtService>();
+builder.Services.AddScoped<JwtService>();
 
 // Dev CORS (visiems origin; pakeisk pagal poreikį)
 builder.Services.AddCors(options =>
@@ -81,17 +83,18 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+if (app.Environment.IsDevelopment())
 {
+    using var scope = app.Services.CreateScope();
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    await db.Database.MigrateAsync();
     await Seed.EnsureSeededAsync(db);
 }
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+Console.WriteLine("DEPLOY TEST 123");
+
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors("AllowAll");
 app.UseAuthentication();

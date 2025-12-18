@@ -14,11 +14,9 @@ namespace RestaurantApi.Controllers
         private readonly AppDbContext _db;
         public RestaurantsController(AppDbContext db) { _db = db; }
 
-        // Neregistruotas mato tik patvirtintus
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Restaurant>>> GetAll()
             => Ok(await _db.Restaurants
-                .Where(r => r.Status == RestaurantStatus.Approved)
                 .AsNoTracking()
                 .ToListAsync());
 
@@ -31,15 +29,6 @@ namespace RestaurantApi.Controllers
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (r is null) return NotFound();
-
-            // Jei nepatvirtintas, leisti tik savininkui arba admin
-            if (r.Status != RestaurantStatus.Approved)
-            {
-                if (!User.Identity?.IsAuthenticated ?? true) return NotFound();
-                var role = User.FindFirst(ClaimTypes.Role)?.Value;
-                var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-                if (role != nameof(UserRole.Admin) && r.OwnerId != userId) return Forbid();
-            }
 
             // Rodom tik patvirtintus atsiliepimus
             r.Reviews = r.Reviews.Where(rev => rev.Status == ReviewStatus.Approved).ToList();
@@ -57,10 +46,6 @@ namespace RestaurantApi.Controllers
 
             if (role == nameof(UserRole.RestaurantOwner))
                 r.OwnerId = userId;
-
-            // Nauji restoranai laukia patvirtinimo
-            if (role == nameof(UserRole.RestaurantOwner))
-                r.Status = RestaurantStatus.Pending;
 
             r.AverageRating = 0;
             _db.Restaurants.Add(r);
@@ -97,7 +82,9 @@ namespace RestaurantApi.Controllers
         [Authorize(Roles = "RestaurantOwner,Admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            var r = await _db.Restaurants.FindAsync(id);
+            var r = await _db.Restaurants
+                .Include(x => x.Dishes)
+                .FirstOrDefaultAsync(x => x.Id == id);
             if (r is null) return NotFound();
 
             var role = User.FindFirst(ClaimTypes.Role)!.Value;
@@ -105,6 +92,18 @@ namespace RestaurantApi.Controllers
 
             if (role != nameof(UserRole.Admin) && r.OwnerId != userId)
                 return Forbid();
+
+            // Pašaliname su šiuo restoranu susijusius atsiliepimus:
+            // - priskirtus restoranui
+            // - priskirtus jo patiekalams
+            var dishIds = r.Dishes.Select(d => d.Id).ToList();
+            var relatedReviews = await _db.Reviews
+                .Where(rv => rv.RestaurantId == id || (rv.DishId != null && dishIds.Contains(rv.DishId.Value)))
+                .ToListAsync();
+            if (relatedReviews.Any())
+            {
+                _db.Reviews.RemoveRange(relatedReviews);
+            }
 
             _db.Restaurants.Remove(r);
             await _db.SaveChangesAsync();

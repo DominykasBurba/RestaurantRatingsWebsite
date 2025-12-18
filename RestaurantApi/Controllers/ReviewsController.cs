@@ -84,6 +84,9 @@ namespace RestaurantApi.Controllers
 
             existing.Rating = r.Rating;
             existing.Comment = r.Comment;
+            // Status gali keisti tik admin
+            if (role == nameof(UserRole.Admin))
+                existing.Status = r.Status;
 
             await _db.SaveChangesAsync();
             return NoContent();

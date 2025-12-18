@@ -96,7 +96,9 @@ namespace RestaurantApi.Controllers
         [Authorize(Roles = "RestaurantOwner,Admin")]
         public async Task<IActionResult> Delete(int id)
         {
-            var d = await _db.Dishes.Include(x => x.Restaurant).FirstOrDefaultAsync(x => x.Id == id);
+            var d = await _db.Dishes
+                .Include(x => x.Restaurant)
+                .FirstOrDefaultAsync(x => x.Id == id);
             if (d is null) return NotFound();
 
             var role = User.FindFirst(ClaimTypes.Role)!.Value;
@@ -104,6 +106,16 @@ namespace RestaurantApi.Controllers
 
             if (role != nameof(UserRole.Admin) && d.Restaurant?.OwnerId != userId)
                 return Forbid();
+
+            // Pirmiausia pašaliname su šiuo patiekalu susijusius atsiliepimus,
+            // kad neliktų FK klaidos trynimo metu.
+            var relatedReviews = await _db.Reviews
+                .Where(r => r.DishId == id)
+                .ToListAsync();
+            if (relatedReviews.Any())
+            {
+                _db.Reviews.RemoveRange(relatedReviews);
+            }
 
             _db.Dishes.Remove(d);
             await _db.SaveChangesAsync();

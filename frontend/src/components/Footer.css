@@ -1,0 +1,14 @@
+.footer {
+  background: linear-gradient(135deg, #34495e 0%, var(--primary-color) 100%);
+  color: var(--bg-white);
+  margin-top: auto;
+  padding: 2rem 1rem;
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+}
+
